@@ -1,17 +1,19 @@
 const express = require("express");
 const authentication = require("../middleware/auth");
-const errorHandler = require("../utils/errorHandler");
+const authorize = require("../middleware/authorize");
+const errorWrapper = require("../utils/errorWrapper");
 const { paginationValidation, register, updateRecruiterValidation, applyTojobValidation } = require("../utils/validation");
 const { getAll, addRecruiter, upadateRecruiter, deleteUser, deleteJob, getCandidateApplyJob, getExcelfile } = require("../controller/admin");
 
 const route = express.Router();
 
+// only admin can access admin APIs
+route.get("/admin",authentication,authorize(['admin']),paginationValidation,errorWrapper(getAll));
+route.post("/admin/recruiters",authentication,authorize(['admin']),register,errorWrapper(addRecruiter));
+route.put("/admin/recruiters",authentication,authorize(['admin']),updateRecruiterValidation,errorWrapper(upadateRecruiter));
+route.delete("/admin/candidates/:id",authentication,authorize(['admin']),applyTojobValidation,errorWrapper(deleteUser))
+route.delete("/admin/jobs/:id",authentication,authorize(['admin']),applyTojobValidation,errorWrapper(deleteJob))
+route.get("/admin/candidates/:id/jobs",authentication,authorize(['admin']),applyTojobValidation,errorWrapper(getCandidateApplyJob))
+route.get("/admin/export",authentication,authorize(['admin']),errorWrapper(getExcelfile))
 
-route.get("/admin/get-all",authentication,paginationValidation,errorHandler(getAll));
-route.post("/admin/recruiter",authentication,register,errorHandler(addRecruiter));
-route.put("/admin/recruiter",authentication,updateRecruiterValidation,errorHandler(upadateRecruiter));
-route.delete("/admin/candidate/:id",authentication,applyTojobValidation,errorHandler(deleteUser))
-route.delete("/admin/job/:id",authentication,applyTojobValidation,errorHandler(deleteJob))
-route.get("/admin/candidate-job/:id",authentication,applyTojobValidation,errorHandler(getCandidateApplyJob))
-route.get("/admin/export",authentication,errorHandler(getExcelfile))
 module.exports = route;

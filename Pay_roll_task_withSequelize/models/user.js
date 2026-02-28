@@ -34,7 +34,7 @@ module.exports = (sequelize,DataTypes)=>{
         }
     },
     {
-        timeStamps:true,
+        timestamps: true,
     }
 )
  user.associate= (db)=>{

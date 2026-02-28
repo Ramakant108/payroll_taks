@@ -21,7 +21,7 @@ function jobApplication(sequelize,DataTypes){
             defaultValue:false
         }
     },{
-        timeStamps:true
+        timestamps: true,
     })
     return job_applications;
 }

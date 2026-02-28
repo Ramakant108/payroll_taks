@@ -28,7 +28,7 @@ function userOTP(sequelize,DataTypes){
     },{
         freezeTableName:true,
         tableName:"user_otp",
-        timeStamps:true,
+        timestamps: true,
     })
 
 

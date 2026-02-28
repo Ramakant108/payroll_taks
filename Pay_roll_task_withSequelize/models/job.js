@@ -24,7 +24,7 @@ function jobs(sequelize,DataTypes){
             defaultValue:false
         }
     },{
-        timeStamps:true
+        timestamps: true,
     })
     
     job.associate = (db)=>{
